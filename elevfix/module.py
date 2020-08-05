@@ -25,6 +25,9 @@ def set_altitudes(latitudes: List[float], longitudes: List[float]) -> List[float
     if len(latitudes) != len(longitudes):
         raise ValueError('"latitudes" and "longitudes" must be of the same size')
 
+    if len(latitudes) == 0:
+        return []
+
     wpts = [ Waypoint(*wpt) for wpt in zip(latitudes, longitudes) ]
     bbox = track_boundingbox(wpts)
     tiles = srtm_find_tiles(bbox)
