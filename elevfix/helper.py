@@ -18,7 +18,8 @@ def tcx_parse(tcx_content: str) -> List[Waypoint]:
     root = ET.fromstring(tcx_content)
 
     wpts = []
-    for trpt_elem in root.findall('tcx:Activities/tcx:Activity/tcx:Lap/tcx:Track/tcx:Trackpoint', ns):
+    #for trpt_elem in root.findall('tcx:Activities/tcx:Activity/tcx:Lap/tcx:Track/tcx:Trackpoint', ns):
+    for trpt_elem in root.findall('.//tcx:Track/tcx:Trackpoint', ns):
         lat = float(trpt_elem.find('tcx:Position/tcx:LatitudeDegrees', ns).text)
         lon = float(trpt_elem.find('tcx:Position/tcx:LongitudeDegrees', ns).text)
         alt = float(trpt_elem.find('tcx:AltitudeMeters', ns).text)
