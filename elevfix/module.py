@@ -13,7 +13,7 @@ Dem = namedtuple('DEM', 'ncols, nrows, xllcenter, yllcenter, cellsize, nodataval
 
 
 def set_altitudes(latitudes: List[float], longitudes: List[float],
-                  smooth: bool = True, window: int = 3) -> List[float]:
+                  smooth: bool = True, window: int = 3, polynom: int = 2) -> List[float]:
 
     if 'SRTMPATH' not in os.environ:
         raise ValueError('Environment variable SRTMPATH must be set')
@@ -33,7 +33,7 @@ def set_altitudes(latitudes: List[float], longitudes: List[float],
 
     if window < 0 or window % 2 == 0:
         raise ValueError('"window" must be a positive odd number')
-
+    
     wpts = [ Waypoint(*wpt) for wpt in zip(latitudes, longitudes) ]
     bbox = track_boundingbox(wpts)
     tiles = srtm_find_tiles(bbox)
@@ -51,18 +51,18 @@ def set_altitudes(latitudes: List[float], longitudes: List[float],
                 altitudes[i] = alt
 
     if smooth:
-        altitudes = smooth_altitudes(latitudes, longitudes, altitudes, window)
+        altitudes = smooth_altitudes(latitudes, longitudes, altitudes, window, polynom)
         
     return altitudes
 
 
-def smooth_altitudes(lats: List[float], lons: List[float], alts: List[float], win: int) -> List[float]:
+def smooth_altitudes(lats: List[float], lons: List[float], alts: List[float], win: int, polynom: int) -> List[float]:
 
     wpts = [ elevfix.helper.Waypoint(w[0], w[1], w[2]) for w in zip(lats, lons, alts) ] 
     dists = [ elevfix.helper.wpt_distance(wpair[0], wpair[1]) for wpair in zip(wpts[:-1], wpts[1:]) ]
     dists_acc = [ sum(dists[:i]) for i in range(len(wpts)) ]
-
-    return elevfix.helper.non_uniform_savgol(dists_acc, alts, win, 2)
+    
+    return elevfix.helper.non_uniform_savgol(dists_acc, alts, win, polynom)
     
 
 def track_boundingbox(wpts: List[Waypoint]) -> BoundingBox:
