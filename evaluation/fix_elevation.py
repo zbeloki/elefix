@@ -7,8 +7,10 @@ import plotly.express as px
 
 from eval import elevation_gain, track_avg_elevation_diff, DEFAULT_VERT_THRESHOLD
 
-DEF_SAVGOL_WINDOW = 231
-DEF_SAVGOL_GRADE = 3
+# optimized parameters
+DEF_SAVGOL_WINDOW = 151
+DEF_SAVGOL_GRADE = 2
+
 
 def main(track_fpath, window, grade):
 
@@ -66,17 +68,17 @@ def main(track_fpath, window, grade):
     # draw diagram
     wpts = []
     for w in zip(dists_acc, altitudes_orig, altitudes_srtm_raw, altitudes_srtm):
-        wpts.append({'dist':w[0], 'type':'Jatorrizkoa', 'alt':w[1]})
+        wpts.append({'dist':w[0], 'type':'Original', 'alt':w[1]})
         wpts.append({'dist':w[0], 'type':'SRTM', 'alt':w[2]})
         wpts.append({'dist':w[0], 'type':'SRTM + Savitzky-Golay', 'alt':w[3]})
     fig = px.line(wpts, x='dist', y='alt', color='type', template='simple_white',
                   labels={
-                      'dist': 'Distantzia',
-                      'alt': 'Altitudea',
-                      'type': 'Datuen jatorria',
+                      'dist': 'Distance',
+                      'alt': 'Altitude',
+                      'type': 'Data source',
                   })
     fig.update_traces(patch={"line":{"color":"blue", "width":1}}, 
-                      selector={"legendgroup":"Jatorrizkoa"})
+                      selector={"legendgroup":"Original"})
     fig.update_traces(patch={"line":{"color":"red", "width":1}}, 
                       selector={"legendgroup":"SRTM"})
     fig.update_traces(patch={"line":{"color":"green", "width":1}}, 

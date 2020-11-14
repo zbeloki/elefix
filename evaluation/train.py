@@ -6,6 +6,7 @@ import sys
 
 DEFAULT_VERT_THRESHOLD = 5.0
 
+
 def main(dataset_dir):
 
     # validate input directory
