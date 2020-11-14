@@ -1,4 +1,4 @@
-import elevfix
+import elefix
 import math
 import argparse
 import os
@@ -27,14 +27,14 @@ def main(dataset_dir, window, grade):
         with open(fpath, 'r') as f:
             track_content = f.read()
             if ext.lower() == '.gpx':
-                wpts = elevfix.gpx_parse(track_content)
+                wpts = elefix.gpx_parse(track_content)
             else:  # ext.lower() == '.tcx'
-                wpts = elevfix.tcx_parse(track_content)
+                wpts = elefix.tcx_parse(track_content)
 
         # remove waypoints for which the distance to the next one is 0
         i = 0
         while i < len(wpts)-1:
-            if elevfix.wpt_distance(wpts[i], wpts[i+1]) == 0.0:
+            if elefix.wpt_distance(wpts[i], wpts[i+1]) == 0.0:
                 del wpts[i]
             else:
                 i += 1
@@ -45,11 +45,11 @@ def main(dataset_dir, window, grade):
         altitudes = [ wpt.alt for wpt in wpts ]
 
         # accumulated distance on each waypoint
-        dists = [ elevfix.wpt_distance(wpair[0], wpair[1]) for wpair in zip(wpts[:-1], wpts[1:]) ]
+        dists = [ elefix.wpt_distance(wpair[0], wpair[1]) for wpair in zip(wpts[:-1], wpts[1:]) ]
         dists_acc = [ sum(dists[:i]) for i in range(len(wpts)) ]
 
         # SRTM raw altitudes
-        alts_srtm_raw = elevfix.set_altitudes(latitudes, longitudes, smooth=False)
+        alts_srtm_raw = elefix.set_altitudes(latitudes, longitudes, smooth=False)
 
         dataset_entry = {
             'lats': latitudes,

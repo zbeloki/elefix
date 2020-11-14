@@ -1,4 +1,4 @@
-import elevfix
+import elefix
 import math
 import argparse
 import os
@@ -23,14 +23,14 @@ def main(track_fpath, window, grade):
     with open(track_fpath, 'r') as f:
         track_content = f.read()
         if ext.lower() == '.gpx':
-            wpts = elevfix.gpx_parse(track_content)
+            wpts = elefix.gpx_parse(track_content)
         else:  # ext.lower() == '.tcx'
-            wpts = elevfix.tcx_parse(track_content)
+            wpts = elefix.tcx_parse(track_content)
 
     # remove waypoints for which the distance to the next one is 0
     i = 0
     while i < len(wpts)-1:
-        if elevfix.wpt_distance(wpts[i], wpts[i+1]) == 0.0:
+        if elefix.wpt_distance(wpts[i], wpts[i+1]) == 0.0:
             del wpts[i]
         else:
             i += 1
@@ -41,7 +41,7 @@ def main(track_fpath, window, grade):
     altitudes_orig = [ wpt.alt for wpt in wpts ]
 
     # accumulated distance on each waypoint
-    dists = [ elevfix.wpt_distance(wpair[0], wpair[1]) for wpair in zip(wpts[:-1], wpts[1:]) ]
+    dists = [ elefix.wpt_distance(wpair[0], wpair[1]) for wpair in zip(wpts[:-1], wpts[1:]) ]
     dists_acc = [ sum(dists[:i]) for i in range(len(wpts)) ]
     totaldist = dists_acc[-1]
 
@@ -49,12 +49,12 @@ def main(track_fpath, window, grade):
     eg_orig = elevation_gain(altitudes_orig, totaldist, DEFAULT_VERT_THRESHOLD)
     
     # SRTM raw altitudes
-    altitudes_srtm_raw = elevfix.set_altitudes(latitudes, longitudes, smooth=False)
+    altitudes_srtm_raw = elefix.set_altitudes(latitudes, longitudes, smooth=False)
     eg_srtm_raw = elevation_gain(altitudes_srtm_raw, totaldist, DEFAULT_VERT_THRESHOLD)
     diff_srtm_raw = track_avg_elevation_diff(dists_acc, altitudes_orig, altitudes_srtm_raw, True)
     
     # SRTM smoothed altitudes
-    altitudes_srtm = elevfix.set_altitudes(latitudes, longitudes, True, window, grade)
+    altitudes_srtm = elefix.set_altitudes(latitudes, longitudes, True, window, grade)
     eg_srtm = elevation_gain(altitudes_srtm, totaldist, DEFAULT_VERT_THRESHOLD)
     diff_srtm = track_avg_elevation_diff(dists_acc, altitudes_orig, altitudes_srtm, True)
 

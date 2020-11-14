@@ -1,4 +1,4 @@
-import elevfix
+import elefix
 import math
 import argparse
 import os
@@ -28,14 +28,14 @@ def main(dataset_dir):
         with open(fpath, 'r') as f:
             track_content = f.read()
             if ext.lower() == '.gpx':
-                wpts = elevfix.gpx_parse(track_content)
+                wpts = elefix.gpx_parse(track_content)
             else:  # ext.lower() == '.tcx'
-                wpts = elevfix.tcx_parse(track_content)
+                wpts = elefix.tcx_parse(track_content)
 
         # remove waypoints for which the distance to the next one is 0
         i = 0
         while i < len(wpts)-1:
-            if elevfix.wpt_distance(wpts[i], wpts[i+1]) == 0.0:
+            if elefix.wpt_distance(wpts[i], wpts[i+1]) == 0.0:
                 del wpts[i]
             else:
                 i += 1
@@ -46,11 +46,11 @@ def main(dataset_dir):
         altitudes = [ wpt.alt for wpt in wpts ]
 
         # accumulated distance on each waypoint
-        dists = [ elevfix.wpt_distance(wpair[0], wpair[1]) for wpair in zip(wpts[:-1], wpts[1:]) ]
+        dists = [ elefix.wpt_distance(wpair[0], wpair[1]) for wpair in zip(wpts[:-1], wpts[1:]) ]
         dists_acc = [ sum(dists[:i]) for i in range(len(wpts)) ]
 
         # SRTM raw altitudes
-        alts_srtm_raw = elevfix.set_altitudes(latitudes, longitudes, smooth=False)
+        alts_srtm_raw = elefix.set_altitudes(latitudes, longitudes, smooth=False)
 
         dataset_entry = {
             'lats': latitudes,
@@ -95,7 +95,7 @@ def calculate_acc_deviation(dataset, savgol_window, vertical_threshold = DEFAULT
         if savgol_window is None and vertical_threshold is None:
             eg_srtm = elevation_gain(entry['alts_srtm_raw'], totaldist, DEFAULT_VERT_THRESHOLD)
         else:
-            alts_srtm = elevfix.set_altitudes(entry['lats'], entry['lons'], True, savgol_window, polynom)
+            alts_srtm = elefix.set_altitudes(entry['lats'], entry['lons'], True, savgol_window, polynom)
             eg_srtm = elevation_gain(alts_srtm, totaldist, vertical_threshold)
         current_deviation = abs(eg_srtm - eg_orig)
         sqr_deviation += (current_deviation ** 2)
@@ -114,7 +114,7 @@ def dataset_avg_elevation_diff(dataset, overlap, savgol_window, polynom = 2):
         if savgol_window is None:
             alts2 = entry['alts_srtm_raw']
         else:
-            alts2 = elevfix.set_altitudes(entry['lats'], entry['lons'], True, savgol_window, polynom)
+            alts2 = elefix.set_altitudes(entry['lats'], entry['lons'], True, savgol_window, polynom)
         entry_elev_diff = track_avg_elevation_diff(dists, alts1, alts2, overlap)
         sqr_elev_diff += (entry_elev_diff ** 2)
         elev_diff += entry_elev_diff

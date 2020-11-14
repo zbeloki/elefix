@@ -3,7 +3,7 @@ from typing import List, Tuple
 from array import array
 import os
 
-import elevfix.helper
+import elefix.helper
 
 Waypoint = namedtuple('Waypoint', 'lat, lon')
 Point = namedtuple('Point', 'x, y, z')
@@ -58,11 +58,11 @@ def set_altitudes(latitudes: List[float], longitudes: List[float],
 
 def smooth_altitudes(lats: List[float], lons: List[float], alts: List[float], win: int, polynom: int) -> List[float]:
 
-    wpts = [ elevfix.helper.Waypoint(w[0], w[1], w[2]) for w in zip(lats, lons, alts) ] 
-    dists = [ elevfix.helper.wpt_distance(wpair[0], wpair[1]) for wpair in zip(wpts[:-1], wpts[1:]) ]
+    wpts = [ elefix.helper.Waypoint(w[0], w[1], w[2]) for w in zip(lats, lons, alts) ] 
+    dists = [ elefix.helper.wpt_distance(wpair[0], wpair[1]) for wpair in zip(wpts[:-1], wpts[1:]) ]
     dists_acc = [ sum(dists[:i]) for i in range(len(wpts)) ]
     
-    return elevfix.helper.non_uniform_savgol(dists_acc, alts, win, polynom)
+    return elefix.helper.non_uniform_savgol(dists_acc, alts, win, polynom)
     
 
 def track_boundingbox(wpts: List[Waypoint]) -> BoundingBox:
