@@ -64,7 +64,8 @@ def main(dataset_dir):
     # SRTM raw altitudes (baseline)
     sqr_avg_acc_dev, avg_acc_dev = calculate_acc_deviation(dataset, None, None, None)
     sqr_avg_ele_diff, avg_ele_diff = dataset_avg_elevation_diff(dataset, True, None, None)
-    print('-\t{:.2f}\t{:.2f}\t{:.2f}\t{:.2f}'.format(sqr_avg_acc_dev, avg_acc_dev, sqr_avg_ele_diff, avg_ele_diff))
+    print('N\tG\tEGD (quadratic mean)\tEGD (mean)\tAPD (quadratic mean)\tAPD (mean)'.format(sqr_avg_acc_dev, avg_acc_dev, sqr_avg_ele_diff, avg_ele_diff))
+    print('-\t-\t{:.2f}\t{:.2f}\t{:.2f}\t{:.2f}'.format(sqr_avg_acc_dev, avg_acc_dev, sqr_avg_ele_diff, avg_ele_diff))
     
     # SRTM smoothed altitudes after applying Savitzky-Golay filter
     best_acc = [None, None, 999999, None]  # window, sqr_avg_acc_dev, avg_acc_dev
