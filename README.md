@@ -6,7 +6,7 @@ Elefix is a library to set elevation data to a list of latitude-longitude pairs.
 In order to use this library you only need the following function:
 
 ```python
-set_altitudes(lats: List[float], lons: List[float],	smooth: bool=True, window: int=151,	polynom: int=2) -> List[float]
+set_altitudes(lats: List[float], lons: List[float], smooth: bool=True, window: int=151, polynom: int=2) -> List[float]
 ```
 
 - `lats` and `lons` are the latitudes and longitudes.
