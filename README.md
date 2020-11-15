@@ -17,7 +17,9 @@ set_altitudes(lats: List[float], lons: List[float], smooth: bool=True, window: i
 
 # Tuning the smoothing parameters
 
-I described the experiment I used to tune the parameters in this article (in process). The scripts to train and test the parameters are included in `evaluation/`.
+I described the experiment I used to tune the parameters in this article (in process).
+
+The scripts to train and test the parameters are included in `evaluation/`. I optimized the parameters for mountain biking activities. You can optimize them for other type of activities with the scripts provided.
 
 
 # SRTM data
