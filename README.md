@@ -12,6 +12,7 @@ set_altitudes(lats: List[float], lons: List[float], smooth: bool=True, window: i
 - `lats` and `lons` are the latitudes and longitudes.
 - If `smooth` is `False` the altitudes will be the originals retrieved from the SRTM digital elevation model. If `True` the SRTM altitudes are smoothed with Savitzky-Golay filter.
 - `window` and `polynom` are the filter's parameters. The defaults are optimized for mountain biking tracks.
+- Returns a `list` of altitudes.
 
 
 # Tuning the smoothing parameters
