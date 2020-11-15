@@ -13,7 +13,7 @@ Dem = namedtuple('DEM', 'ncols, nrows, xllcenter, yllcenter, cellsize, nodataval
 
 
 def set_altitudes(latitudes: List[float], longitudes: List[float],
-                  smooth: bool = True, window: int = 3, polynom: int = 2) -> List[float]:
+                  smooth: bool = True, window: int = 151, polynom: int = 2) -> List[float]:
 
     if 'SRTMPATH' not in os.environ:
         raise ValueError('Environment variable SRTMPATH must be set')
